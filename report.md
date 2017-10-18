@@ -16,7 +16,7 @@ I noticed six main problems with the data, which I will discuss in the following
 + Incorrect phone number format("(028)87383891","028-85950826","83222271")
 + Incorrect city name("Chengu")
 + Inconsistent city name("Chengdu","chengdu","成都","成都市")
-+ Inconsistent bank name("ICBC","Icbc","ICBC","Industrial and Commercial Bank of China")
++ Inconsistent bank name("ICBC","Icbc","ICBC","Industrial and Commercial Bank of China","中国工商银行")
 + Incorrect postal codes(Chengdu area zip codes range from "610000" to "611944",however there is a zip code was "028".)
 
 ### Overabbreviated and Inconsistent street names
@@ -127,7 +127,7 @@ def update_city(city):
     return city
 ```
 ### Inconsistent bank name
-"ICBC","Icbc",and "Industrial and Commercial Bank of China" are all the same bank,so they need to use a uniform name.
+"ICBC","Icbc",and "Industrial and Commercial Bank of China" are all the same bank,so they need to use a uniform name "中国工商银行".
 ```python
 def update_bankname(bankname):
     if bankname in["Icbc","ICBC","Industrial and Commercial Bank of China"]:
