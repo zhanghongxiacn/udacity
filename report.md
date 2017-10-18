@@ -21,6 +21,7 @@
 Chengdu,Sichuan,China
 + <https://www.openstreetmap.org/node/244077729#map=11/30.6683/104.0776>
 + <https://mapzen.com/data/metro-extracts/metro/chengdu_china/>
+
 This map is one of my favorite city, so I’m more interested to see what database querying reveals, and
 I’d like an opportunity to contribute to its improvement on OpenStreetMap.org.
 
