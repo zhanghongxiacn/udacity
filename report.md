@@ -218,7 +218,8 @@ HAVING num=1) u;
 ```
 118
 ## Additional Ideas
-### Contributor statistics and gamification suggestion
+### Dataset Improvement
+As the data cleaned before,there are so much inconsistent data,such as street name,phone number,bank name etc.If there is a simple tool, which can automaticly check if the value meet a criterion or not when a contributor edit the data,  then the dataset will be less dirty.
 ## Additional Data Exploration
 ### Top 10 appearing amenities
 ```sql
@@ -253,11 +254,11 @@ sqlite> SELECT nodes_tags.value, COUNT(*) as num
         LIMIT 5;
 ```
 ```
-中国银行|7
-ICBC|4
-中国工商银行|4
-China Construction Bank|3
-中国建设银行|3
+中国工商银行|11
+中国建设银行|11
+中国银行|9
+中国农业银行|4
+招商银行|3
 ```
 ### First contribution
 ```sql
