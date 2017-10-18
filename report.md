@@ -15,7 +15,8 @@ I noticed six main problems with the data, which I will discuss in the following
 + Inconsistent street names("Chengshou St","Jinsi Jie","wenshuyuan st")
 + Incorrect phone number format("(028)87383891","028-85950826","83222271")
 + Incorrect city name("Chengu")
-+ Inconsistent city name("Chengdu"、"chengdu"、"成都"、"成都市")
++ Inconsistent city name("Chengdu","chengdu","成都","成都市")
++ Inconsistent bank name("ICBC","Icbc","ICBC","Industrial and Commercial Bank of China")
 + Incorrect postal codes(Chengdu area zip codes range from "610000" to "611944",however there is a zip code was "028".)
 
 ### Overabbreviated and Inconsistent street names
@@ -125,6 +126,18 @@ def update_city(city):
         city = "Chengdu"
     return city
 ```
+### Inconsistent bank name
+"ICBC","Icbc",and "Industrial and Commercial Bank of China" are all the same bank,so they need to use a uniform name.
+```python
+def update_bankname(bankname):
+    if bankname in["Icbc","ICBC","Industrial and Commercial Bank of China"]:
+        bankname = "中国工商银行"
+    elif bankname in["China Construction Bank","建设银行"]:
+        bankname = "中国建设银行"
+    elif bankname in["ABC Bank","Agricultural Bank of China ABC"]:
+        bankname = "中国农业银行"
+    return bankname
+```
 ### Incorrect postal codes
 After running audit.py file,there is a incorrect post code "028".Through looking for the "city" tag with the same node id,it can make sure that the post code is "610041".
 ```python
@@ -226,18 +239,23 @@ fuel|34
 fast_food|25
 bicycle_parking|24
 ```
-### Most popular cuisines
+### Most popular  bank
 ```sql
 sqlite> SELECT nodes_tags.value, COUNT(*) as num
-FROM nodes_tags
-JOIN (SELECT DISTINCT(id) FROM nodes_tags WHERE value='restaurant') i
-ON nodes_tags.id=i.id
-WHERE nodes_tags.key='cuisine'
-GROUP BY nodes_tags.value
-ORDER BY num DESC
-LIMIT 10;
+        FROM nodes_tags
+        JOIN (SELECT DISTINCT(id) FROM nodes_tags WHERE value='bank') i
+        ON nodes_tags.id=i.id
+        WHERE nodes_tags.key='name'
+        GROUP BY nodes_tags.value
+        ORDER BY num DESC
+        LIMIT 5;
 ```
 ```
+中国银行|7
+ICBC|4
+中国工商银行|4
+China Construction Bank|3
+中国建设银行|3
 ```
 ### First contribution
 ```sql
