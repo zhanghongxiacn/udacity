@@ -132,10 +132,12 @@ def update_city(city):
 def update_bankname(bankname):
     if bankname in["Icbc","ICBC","Industrial and Commercial Bank of China"]:
         bankname = "中国工商银行"
-    elif bankname in["China Construction Bank","建设银行"]:
+    elif bankname in["China Construction Bank","建设银行","China  Construction Bank","China construction bank"]:
         bankname = "中国建设银行"
     elif bankname in["ABC Bank","Agricultural Bank of China ABC"]:
         bankname = "中国农业银行"
+    elif bankname in["Bank of China"]:
+        bankname = "中国银行" 
     return bankname
 ```
 ### Incorrect postal codes
