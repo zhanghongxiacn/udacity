@@ -72,6 +72,79 @@ def update_name(name):
         original_name = re.sub(first_word, first_word.title(), original_name)
     return original_name
 ```
+# OpenStreetMap Data Case Study
+
+## Map Area
+Chengdu,Sichuan,China
++ <https://www.openstreetmap.org/node/244077729#map=11/30.6683/104.0776>
++ <https://mapzen.com/data/metro-extracts/metro/chengdu_china/>
+This map is one of my favorite city, so I’m more interested to see what database querying reveals, and
+I’d like an opportunity to contribute to its improvement on OpenStreetMap.org.
+
+## Problems Encountered in the Map
+After initially auditting a small sample size of the Chengdu area by running audit.py file.
+I noticed six main problems with the data, which I will discuss in the following order:
++ Overabbreviatedstreet names("Binjiang E Rd")
++ Inconsistent street names("Chengshou St","Jinsi Jie","wenshuyuan st")
++ Incorrect phone number format("(028)87383891","028-85950826","83222271")
++ Incorrect city name("Chengu")
++ Inconsistent city name("Chengdu","chengdu","成都","成都市")
++ Inconsistent bank name("ICBC","Icbc","ICBC","Industrial and Commercial Bank of China","中国工商银行")
++ Incorrect postal codes(Chengdu area zip codes range from "610000" to "611944",however there is a zip code was "028".)
+
+### Overabbreviated and Inconsistent street names
+Spell out all street types ，capitalize the street name and change the "jie" to "Street".
+
+- "Chengshou St" to "Chengshou Street"
+- "wenshuyuan st" to "Wenshuyuan Street"
+- "Jinsi Jie" to "Jinsi Street"
+```python
+
+def update_name(name):
+    """
+    Clean street name for insertion into SQL database
+    """
+    #make street name be capitalized 
+    first_word = name.rsplit(None, 1)[0]                   
+    if first_word.islower():
+        print (first_word)
+        name = re.sub(first_word, first_word.title(), name)
+    
+    if name == "Yangjiang Rd., Shuangliu":
+        name = "Yangjiang Road, Shuangliu"
+        return name
+    elif name == "No. 20 Hongxing road 2 section":
+        name = "No. 20 Hongxing Road Second Section"
+        return name
+    elif name == "人民南路四段 - Renminnanlu 4 Duan":
+        name = "人民南路四段 - Renmin Road South Fourth Section"
+        return name
+    elif name == "人民南路二段 - Section 2 Renmin Road South":
+        name = "人民南路二段 - Renmin Road South Second Section"
+        return name
+    else:
+        original_name = name
+        for key in mapping.keys():
+            # Only replace when mapping key match (e.g. "St.") is found at end of name
+            type_fix_name = re.sub(r'\s' + re.escape(key) + r'$', ' ' + mapping[key], original_name)
+            nesw = nesw_re.search(type_fix_name)
+            if nesw is not None:
+                for key in street_mapping.keys():
+                    # Do not update correct names like St. Clair Avenue West
+                    dir_fix_name = re.sub(r'\s' + re.escape(key) + re.escape(nesw.group(0)), " " + street_mapping[key] + nesw.group(0), type_fix_name)
+                    if dir_fix_name != type_fix_name:
+                        # print original_name + "=>" + type_fix_name + "=>" + dir_fix_name
+                        return dir_fix_name
+            if type_fix_name != original_name:
+                # print original_name + "=>" + type_fix_name
+                return type_fix_name
+    # Check if avenue, road, street, etc. are capitalized
+    last_word = original_name.rsplit(None, 1)[-1] 
+    if last_word.islower() or first_word.islower():
+        original_name = re.sub(last_word, last_word.title(), original_name)
+        original_name = re.sub(first_word, first_word.title(), original_name)
+    return original_name
+```
 ### Incorrect phone number format
 Convert, where necessary, to international format with spaces: "+86 ### #### ####".
 
