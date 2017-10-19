@@ -220,7 +220,7 @@ HAVING num=1) u;
 118
 ## Additional Ideas
 ### Dataset Improvement
-As the data cleaned before,there are so much inconsistent data,such as street name,phone number,bank name etc.If there is a simple tool, which can automaticly check if the value meet a criterion or not when a contributor edit the data,  then the dataset will be less dirty.
+As the data cleaned before,there are so much inconsistent data,such as street name,phone number,bank name etc.One way to improve this problem is let contributors conveniently reference the criterion.If there is a simple tool, which can automaticly give some examples meeting a criterion when a contributor edits the data,  it will help the contributor to decide what value should be input.This tool is just to give some reference,it can't modify the data itself.So it's worth is up to how many contributors use it and how to use it.The more contributors use it well, the less dity data will be.
 ## Additional Data Exploration
 ### Top 10 appearing amenities
 ```sql
