@@ -1,0 +1,6 @@
+﻿参考内容：
+1. https://github.com/davidventuri/udacity-dand/tree/master/p5
+2. http://bbs.fishc.com/forum-173-1.html
+3. https://discussions.udacity.com/t/different-results-by-using-gridsearchcv-vs-direct-applying-algorithm/35550/7
+4. https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000
+5. http://scikit-learn.org/stable/index.html
